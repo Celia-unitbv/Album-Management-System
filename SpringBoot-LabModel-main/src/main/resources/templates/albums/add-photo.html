@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Adaugă Poză</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body>
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold mb-4">Adaugă Poză în Album</h1>
+
+    <form th:action="@{/album/details/{id}/add-photo(id=${albumId})}"
+          method="post" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow">
+        <div class="mb-4">
+            <label for="title" class="block text-sm font-bold mb-2">Titlu Poză:</label>
+            <input type="text" id="title" name="title" required
+                   class="w-full p-2 border rounded">
+        </div>
+        <div class="mb-4">
+            <label for="photo" class="block text-sm font-bold mb-2">Selectează Poză:</label>
+            <input type="file" id="photo" name="photo" required
+                   class="w-full p-2 border rounded">
+        </div>
+        <button type="submit"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Adaugă Poză
+        </button>
+    </form>
+
+    <div class="mt-4">
+        <a th:href="@{/album/details/{id}(id=${albumId})}"
+           class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+            Înapoi la Detalii Album
+        </a>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Update User Roles</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Select all checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"][name="roleIds"]');
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    // Retrieve the text content of the role associated with the checkbox
+                    const roleName = this.nextElementSibling.textContent.trim();
+
+                    if (roleName === "ADMIN" && this.checked) {
+                        // If "ADMIN" is selected, deselect all other checkboxes
+                        checkboxes.forEach(cb => {
+                            if (cb !== this) {
+                                cb.checked = false;
+                            }
+                        });
+                    } else if (roleName !== "ADMIN" && this.checked) {
+                        // If any other role is selected, uncheck "ADMIN"
+                        checkboxes.forEach(cb => {
+                            const cbRoleName = cb.nextElementSibling.textContent.trim();
+                            if (cbRoleName === "ADMIN") {
+                                cb.checked = false;
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</head>
+<body>
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold mb-4">Update Roles for User: <span th:text="${user.email}"></span></h1>
+
+    <form th:action="@{/admin/users/{id}/roles(id=${user.id})}" method="post">
+        <div class="mb-4">
+            <h2 class="text-xl font-bold mb-2">Available Roles</h2>
+            <div th:each="role : ${allRoles}" class="mb-2">
+                <label>
+                    <input type="checkbox" name="roleIds" th:value="${role.id}"
+                           th:checked="${user.roles.contains(role)}">
+                    <span th:text="${role.name}"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="flex space-x-4">
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                Save Roles
+            </button>
+            <a th:href="@{/admin/users}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

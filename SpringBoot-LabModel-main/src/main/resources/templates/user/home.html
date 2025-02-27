@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{user-layout.html}">
+<head>
+    <title>Pagina Principală</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="bg-white rounded-lg shadow p-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Bun venit!</h1>
+        <p class="text-gray-600">
+            Utilizator conectat: <span class="font-semibold" th:text="${#authentication.name}"></span>
+        </p>
+    </div>
+</div>
+</body>
+</html>

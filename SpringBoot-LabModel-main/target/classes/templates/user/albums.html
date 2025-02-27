@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{user-layout.html}">
+<head>
+    <title>Albumele Mele</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="bg-white rounded-lg shadow p-6">
+        <!-- Search bar -->
+        <form th:action="@{/user/albums/search}" method="get" class="mb-4">
+            <input
+                    type="text"
+                    name="query"
+                    placeholder="Caută un album..."
+                    class="border px-4 py-2 rounded w-full"
+                    required>
+            <button
+                    type="submit"
+                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mt-2">
+                Caută
+            </button>
+        </form>
+        <!-- Titlu și butonul de adăugare -->
+        <div class="flex items-center justify-between mb-4">
+            <a th:href="@{/user/albums/add}"
+               class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none">
+                + Adaugă Album
+            </a>
+        </div>
+
+        <!-- Tabelul cu albumele -->
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">Lista Albumelor</h1>
+        <table class="w-full border border-gray-200 rounded-lg">
+            <thead class="bg-indigo-600 text-white">
+            <tr>
+                <th class="px-4 py-2 text-left">Nume Album</th>
+                <th class="px-4 py-2 text-left">Creat de</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="album : ${albums}" class="border-b hover:bg-gray-50">
+                <td class="px-4 py-2">
+                    <!-- Conditional rendering based on permissions -->
+                    <a th:if="${albumPermissions[album.id]}"
+                       th:href="@{/album/details/{id}(id=${album.id})}"
+                       class="text-indigo-600 hover:text-indigo-800">
+                        <span th:text="${album.name}"></span>
+                    </a>
+                    <span th:unless="${albumPermissions[album.id]}" th:text="${album.name}"></span>
+                </td>
+                <td class="px-4 py-2" th:text="${album.createdBy}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

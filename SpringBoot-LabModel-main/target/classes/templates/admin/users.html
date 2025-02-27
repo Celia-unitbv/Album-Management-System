@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout.html}">
+<head>
+    <title>User Management</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="bg-white rounded-lg shadow p-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">User Management</h1>
+        <table class="w-full border border-gray-200 rounded-lg">
+            <thead class="bg-indigo-600 text-white">
+            <tr>
+                <th class="px-4 py-2 text-left">Email</th>
+                <th class="px-4 py-2 text-left">Roles</th>
+                <th class="px-4 py-2 text-center">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}" class="border-b hover:bg-gray-50">
+                <td class="px-4 py-2" th:text="${user.email}"></td>
+                <td class="px-4 py-2">
+                    <ul>
+                        <li th:each="role : ${user.roles}" th:text="${role.name}" class="text-sm"></li>
+                    </ul>
+                </td>
+                <td class="px-4 py-2 text-center space-x-2">
+                    <a th:href="@{/admin/users/{id}/roles(id=${user.id})}"
+                       class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 focus:outline-none">
+                        Update Roles
+                    </a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

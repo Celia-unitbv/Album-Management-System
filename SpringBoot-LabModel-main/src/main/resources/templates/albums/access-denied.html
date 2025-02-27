@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Acces Interzis</title>
+</head>
+<body>
+<div class="container mx-auto mt-8 text-center">
+    <h1 class="text-3xl font-bold text-red-600 mb-4">Acces Interzis</h1>
+    <p class="text-lg mb-4">
+        Nu aveți permisiunea de a accesa detaliile pentru albumul: <strong th:text="${albumName}"></strong>.
+    </p>
+    <a th:href="@{/albums}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+        Înapoi la Albume
+    </a>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Adaugă Album</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+<div class="bg-white p-8 rounded shadow-md w-full max-w-lg">
+    <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Adaugă un Album Nou</h2>
+    <form th:action="@{/user/albums/add}" method="POST" th:object="${album}" class="space-y-4">
+        <div>
+            <label for="name" class="block text-gray-700 font-bold">Nume Album:</label>
+            <input type="text" id="name" name="name" th:field="*{name}" required
+                   class="w-full border rounded py-2 px-3 focus:outline-none focus:border-indigo-500">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-500 text-sm"></span>
+        </div>
+
+        <div>
+            <label for="createdBy" class="block text-gray-700 font-bold">Creat de:</label>
+            <input type="text" id="createdBy" name="createdBy" th:field="*{createdBy}"
+                   class="w-full border rounded py-2 px-3 focus:outline-none focus:border-indigo-500">
+        </div>
+
+        <button type="submit"
+                class="w-full bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 focus:outline-none">
+            Salvează Album
+        </button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+  <title>Edit Role</title>
+</head>
+<body>
+<div class="bg-white rounded-lg shadow p-6">
+  <h1 class="text-3xl font-bold text-gray-800 mb-4">Edit Role</h1>
+
+  <form th:action="@{/admin/roles/{id}/edit(id=${role.id})}" method="post">
+    <label class="block mb-2 text-gray-600">Role Name:</label>
+    <input type="text" name="name" th:value="${role.name}" class="border px-4 py-2 rounded w-full mb-4">
+    <button type="submit"
+            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+      Save Changes
+    </button>
+  </form>
+
+  <!-- Lista permisiunilor -->
+  <h2 class="text-2xl font-bold text-gray-800 mt-6">Permissions</h2>
+  <table class="w-full border border-gray-200 rounded-lg mt-4">
+    <thead class="bg-indigo-600 text-white">
+    <tr>
+      <th class="px-4 py-2 text-left">HTTP Method</th>
+      <th class="px-4 py-2 text-left">URL</th>
+      <th class="px-4 py-2 text-center">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="permission : ${permissions}" class="border-b hover:bg-gray-50">
+      <td class="px-4 py-2" th:text="${permission.httpMethod}"></td>
+      <td class="px-4 py-2" th:text="${permission.url}"></td>
+      <td class="px-4 py-2 text-center">
+        <form th:action="@{/admin/roles/{id}/permissions/{permissionId}/delete(id=${role.id}, permissionId=${permission.id})}" method="post" class="inline-block">
+          <button type="submit"
+                  class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 focus:outline-none">
+            Delete
+          </button>
+        </form>
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+
+</div>
+
+<h2 class="text-2xl font-bold text-gray-800 mt-6">Add New Permission</h2>
+<form th:action="@{/admin/roles/{id}/permissions/add(id=${role.id})}" method="post" class="mt-4">
+  <label class="block mb-2 text-gray-600">HTTP Method:</label>
+  <select name="httpMethod" class="border px-4 py-2 rounded w-full mb-4">
+    <option value="GET">GET</option>
+    <option value="POST">POST</option>
+    <option value="PATCH">PATCH</option>
+    <option value="DELETE">DELETE</option>
+  </select>
+
+  <label class="block mb-2 text-gray-600">URL:</label>
+  <input type="text" name="url" placeholder="Enter URL" required class="border px-4 py-2 rounded w-full mb-4">
+
+  <div th:if="${errorMessage}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded mb-4">
+    <span th:text="${errorMessage}"></span>
+  </div>
+
+  <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+    Add Permission
+  </button>
+</form>
+
+</body>
+</html>

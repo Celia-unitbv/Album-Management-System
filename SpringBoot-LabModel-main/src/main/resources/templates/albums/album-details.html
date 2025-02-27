@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gestionare Album</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+<body>
+<div class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold mb-4" th:text="'Gestionare Album: ' + ${album.name}"></h1>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-bold mb-4">Informații Album</h2>
+        <p><strong>Nume Album:</strong> <span th:text="${album.name}"></span></p>
+        <p><strong>Creat de:</strong> <span th:text="${album.createdBy}"></span></p>
+
+        <!-- Adaugă butoane pentru gestionare -->
+        <div class="mt-4">
+            <a th:href="@{/user/albums}"
+               class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                Înapoi la Albume
+            </a>
+            <form th:if="${canAddPhoto}" th:action="@{/album/details/{id}/delete(id=${album.id})}" method="post" class="mt-2">
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                    Șterge Album
+                </button>
+            </form>
+            <a th:if="${canAddPhoto}" th:href="@{/album/details/{id}/add-photo(id=${album.id})}"
+               class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                Adaugă Poză
+            </a>
+        </div>
+
+        <div class="mt-8">
+            <h2 class="text-xl font-bold mb-4">Poze în Album</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div th:each="photo : ${photos}" class="bg-gray-200 p-4 rounded-lg shadow">
+                    <h3 th:text="${photo.title}" class="font-bold mb-2"></h3>
+                    <img th:src="'data:image/jpeg;base64,' + ${photo.base64Data}"
+                         alt="Imagine indisponibilă" class="w-full h-auto rounded-lg">
+                    <form th:if="${canAddPhoto}" th:action="@{/album/details/{id}/photo/{photoId}(id=${album.id}, photoId=${photo.id})}" method="post" class="mt-2">
+                        <button type="submit" class="text-red-500 hover:underline text-sm">Șterge</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+</body>
+</html>
